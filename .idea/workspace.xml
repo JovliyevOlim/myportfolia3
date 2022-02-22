@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ed0236b-2151-406e-828e-c9a3e0b2b336" name="Changes" comment="appjs26">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/SotibOlish/Sidebar/Hamkorlar/MijozGurux/MijozlarGuruxi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SotibOlish/Sidebar/Hamkorlar/MijozGurux/MijozlarGuruxi.js" afterDir="false" />
@@ -162,6 +161,9 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\OLIM\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="2ed0236b-2151-406e-828e-c9a3e0b2b336" name="Changes" comment="" />
@@ -203,7 +205,7 @@
       <workItem from="1645164509903" duration="8723000" />
       <workItem from="1645247608982" duration="23709000" />
       <workItem from="1645331581866" duration="29225000" />
-      <workItem from="1645506530755" duration="9407000" />
+      <workItem from="1645506530755" duration="9747000" />
     </task>
     <task id="LOCAL-00001" summary="app.js">
       <created>1643606654320</created>
