@@ -1,0 +1,28 @@
+.divvv{
+    /*display: block;*/
+}
+.divvv .btns{
+    display: flex;
+    align-items: center;
+    /*border: 1px solid red;*/
+    justify-content: space-between;
+    width: 100%;
+}
+.divvv .btns button{
+    margin-left: 10px;
+    width: 550px;
+}
+.divvv .btns p{
+    margin-top: 2%;
+}
+.divvv h5{
+    position: absolute;
+top: 50%;
+    left: 50%;
+}
+.divvv tfoot{
+    /*border: 1px solid red;*/
+    position: absolute;
+    top: 60%;
+    right: 15%;
+}
