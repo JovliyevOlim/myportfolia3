@@ -5,7 +5,8 @@ import {apiCall} from "../../../../../api";
 const slice = createSlice({
     name: 'bolimlar',
     initialState: {
-        bolimlar: []
+        bolimlar: [],
+        current :0
     },
     reducers: {
         getFrom: (state, action) => {
@@ -14,6 +15,7 @@ const slice = createSlice({
         },
         savefrom: (state,action) => {
             state.bolimlar.unshift(action.payload)
+            state.current+=1
             console.log('SAQLANDI_BOLIM')
             console.log(action.payload)
         },
@@ -32,8 +34,8 @@ const slice = createSlice({
     }
 });
 
-export const getBolim=()=>apiCall({
-    url: '/category/get-by-businessId/1',
+export const getBolim=(data)=>apiCall({
+    url: '/category/get-by-businessId/'+data,
     method:'get',
     onSuccess: slice.actions.getFrom.type
 });
@@ -46,8 +48,8 @@ export const saveBolim=(data)=>apiCall({
 });
 
 export const editBolim=(data)=>apiCall({
-    url: '/category',
-    method: 'post',
+    url: '/category/'+data.id,
+    method: 'put',
     data,
     onSuccess: slice.actions.editfrom.type
 });

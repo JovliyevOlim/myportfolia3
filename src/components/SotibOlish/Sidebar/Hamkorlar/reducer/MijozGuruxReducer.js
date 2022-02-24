@@ -10,6 +10,7 @@ const slice = createSlice({
     },
     reducers: {
         getFrom: (state, action) => {
+            console.log("lpo")
             state.mijozgurux = action.payload.object
             console.log(action.payload.object);
         },
@@ -20,12 +21,12 @@ const slice = createSlice({
         },
         editfrom: (state,action) => {
 
-            state.current-=1
+            state.current+=1
             // toast.success('O`zgartirildi')
         },
         deletefrom:(state,action)=>{
             console.log('DELETED_MIJOZ')
-            state.current-=1
+            state.current+=1
         }
     }
 });

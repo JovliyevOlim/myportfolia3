@@ -1,6 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {apiCall} from "../api";
-import * as url from "url";
 
 export const slice=createSlice({
     name:'branch',
@@ -8,17 +7,17 @@ export const slice=createSlice({
         branch:[]
     },
     reducers:{
-        save:(state,action)=>{
-                state.branch.push(action.payload.object)
+        get:(state,action)=>{
+                state.branch=action.payload.object
         }
     }
 })
 
 export const getbranch=(data)=>apiCall({
-    url:'/branch/'+data,
+    url:'/branch/get-all-by-business-id/'+data,
     method:'get',
     data,
-    onSuccess:slice.actions.save.type
+    onSuccess:slice.actions.get.type
 })
 
 export default slice.reducer

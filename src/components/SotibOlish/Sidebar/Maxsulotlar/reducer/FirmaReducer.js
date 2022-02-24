@@ -4,7 +4,7 @@ import {apiCall} from "../../../../../api";
 const slice = createSlice({
     name: 'firmalar',
     initialState: {
-        firmalar: []
+        firmalar: [],
     },
     reducers: {
         getFrom: (state, action) => {
@@ -31,8 +31,8 @@ const slice = createSlice({
     }
 });
 
-export const getFirma=()=>apiCall({
-    url: '/brand/by-businessId/1',
+export const getFirma=(data)=>apiCall({
+    url: '/brand/by-businessId/'+data,
     method:'get',
     onSuccess: slice.actions.getFrom.type
 });
@@ -45,8 +45,8 @@ export const saveFirma=(data)=>apiCall({
 });
 
 export const editFirma=(data)=>apiCall({
-    url: '/brand',
-    method: 'post',
+    url: '/brand/'+data.id,
+    method: 'put',
     data,
     onSuccess: slice.actions.editfrom.type
 });

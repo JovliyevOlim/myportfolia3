@@ -11,19 +11,21 @@ import {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import './firmalar.css'
 import {Modal, ModalHeader, ModalFooter, ModalBody} from "reactstrap";
-import {deleteFirma, editFirma, getFirma, saveFirma,} from "../reducer/FirmaReducer";
+import FirmaReducer, {deleteFirma, editFirma, getFirma, saveFirma,} from "../reducer/FirmaReducer";
 import users from "../../../../../reducer/users";
 
-function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
+function Firmalar({getFirma, users, firmalar, saveFirma,editFirma, deleteFirma,FirmaReducer,}) {
     console.log(firmalar)
     const [input, setInput] = useState(
         {
             view: '',
             search: '',
             brandqoshish: '',
-            qisqaeslatma: ''
+            qisqaeslatma: '',
+            idF:''
         }
     )
+    const [current,setCurrent] = useState(false)
 
     function view(e) {
         input.view = e.target.value
@@ -49,31 +51,64 @@ function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
         setInput(a)
     }
 
-    function saqla() {
-        saveFirma(
-            {
-                name: input.brandqoshish,
-                businessId: 1
+
+    function editB(id) {
+        toggle()
+        FirmaReducer.firmalar.map(item => {
+            if (item.id === id) {
+                input.brandqoshish = item.name
+                input.idF = id
+                let a = {...input}
+                setInput(a)
             }
-        )
+        })
+    }
+
+    function saqla() {
+        if (input.idF !== ''){
+            editFirma({
+                name: input.brandqoshish,
+                businessId: users.businessId,
+                id: input.idF
+            })
+            setCurrent(!current)
+            getFirma(users.businessId)
+        }else {
+            saveFirma(
+                {
+                    name: input.brandqoshish,
+                    businessId: users.businessId,
+                }
+            )
+            setCurrent(!current)
+            getFirma(users.businessId)
+        }
+        input.idF=''
+        input.brandqoshish=''
+        input.qisqaeslatma=''
+        let a = {...input}
+        setInput(a)
+        setCurrent(!current)
+        getFirma(users.businessId)
         toggle()
     }
 
     function deleteF(item) {
         deleteFirma(item.id)
-        console.log('Deleted')
+        setCurrent(!current)
+        getFirma(users.businessId)
     }
 
-    useEffect(() => {
-        // getFirma(users.users.business.id)
-        getFirma()
-    }, [])
+
 
     const [active, setActive] = useState(false)
 
     function toggle() {
         setActive(!active)
     }
+    useEffect(() => {
+        getFirma(users.businessId)
+    }, [current])
 
     return (
         <div className="col-md-12 mt-2 mt-4 mb-4">
@@ -117,7 +152,7 @@ function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
                         <tbody>
 
                         {
-                            firmalar.filter(val => {
+                            FirmaReducer.firmalar.filter(val => {
                                 if (input.search === '') {
                                     return val
                                 } else if (val.name.toUpperCase().includes(input.search.toUpperCase())) {
@@ -127,7 +162,7 @@ function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
                                 <td>{item.name}</td>
                                 <td>
                                     <Link>
-                                        <button onClick={toggle} className='taxrirlash'><img src={Edit} alt=""/> Taxrirlash
+                                        <button onClick={()=>editB(item.id)} className='taxrirlash'><img src={Edit} alt=""/> Taxrirlash
                                         </button>
                                     </Link>
                                     <button className='ochirish' onClick={()=>deleteF(item)}><img src={Delete} alt=""/> O'chirish</button>
@@ -151,7 +186,7 @@ function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
                         Yangi qo`shish / taxrirlash
                     </ModalHeader>
                     <ModalBody>
-                        <label htmlFor={'l'}>Brand qo`shish</label>
+                        <label htmlFor={'l'}>Brand Nomi</label>
                         <input value={input.brandqoshish} onChange={brandqoshish} type="text" id={'l'}
                                className={'form-control'}/>
                         <label htmlFor={'l2'} className={'mt-3'}>Qisqa eslatma</label>
@@ -168,7 +203,7 @@ function Firmalar({getFirma, users, firmalar, saveFirma, deleteFirma}) {
     )
 }
 
-export default connect(({FirmaReducer: {firmalar}}) => ({firmalar}), {
+export default connect((FirmaReducer,users), {
     getFirma,
     saveFirma,
     editFirma,

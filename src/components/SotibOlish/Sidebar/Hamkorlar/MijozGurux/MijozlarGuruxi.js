@@ -27,9 +27,7 @@ function Mijozlarguruxi({
                             MijozGuruxReducer
                         }) {
 
-    useEffect(() => {
-        getMijozGurux()
-    }, [MijozGuruxReducer.current])
+
 
     const [active, setActive] = useState(false);
 
@@ -59,7 +57,9 @@ function Mijozlarguruxi({
     function deleteM(item) {
         console.log(item)
         deleteMijozGurux(item.id)
-        getMijozGurux(1)
+        setTimeout(()=>{
+            getMijozGurux(1)
+        },100)
     }
 
     function changeguruxnomi(e) {
@@ -111,7 +111,6 @@ function Mijozlarguruxi({
                 businessId: 1
             })
         }
-        toggle()
         input.guruhnomi = ''
         input.phone = ''
         input.selectfoiz = ''
@@ -119,12 +118,16 @@ function Mijozlarguruxi({
         input.mId=''
         let a ={...input}
         setInput(a)
+        toggle()
     }
 
     function toggle() {
         setActive(!active)
     }
 
+    useEffect(() => {
+        getMijozGurux()
+    }, [MijozGuruxReducer.current])
     return (
         <div className="col-md-12 mt-2 pt-4 pb-4">
             <div className="textHeaderMIG">

@@ -23,7 +23,6 @@ function Header({active,sidebarfunc,users}) {
         active(false)
         sidebarfunc()
     }
-    const usersimg = users.users.photo.fileOriginalName
 
     return(
        
@@ -45,12 +44,10 @@ function Header({active,sidebarfunc,users}) {
                             calactive ? <Calculator/> :''
                         }
                     </div>
-                    {
-                        console.log(users.users.photo.fileOriginalName)
-                    }
+
                     <div className="imgUserBox">
                         <div className="imgUser">
-                            <img src={usersimg} alt=""/>
+
                         </div>
                         <select className={'profil'} name="" id="">
                             <option value='none'> </option>

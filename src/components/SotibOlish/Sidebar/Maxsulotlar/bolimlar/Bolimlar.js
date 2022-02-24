@@ -11,8 +11,9 @@ import {useState, useEffect} from "react";
 import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import {connect} from "react-redux";
 import BolimReducer, {deleteBolim, bolimlar, editBolim, getBolim, saveBolim,} from "../reducer/BolimReducer";
+import users from "../../../../../reducer/users";
 
-function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
+function Bolimlar({editBolim,getBolim, bolimlar, saveBolim, deleteBolim, BolimReducer, users}) {
 
     const [input, setInput] = useState(
         {
@@ -21,8 +22,10 @@ function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
             bolimnomi: '',
             bolimkodi: '',
             qisqacamalumot: '',
+            bId:'',
         }
     )
+    const [current, setCurrent] = useState(false)
 
     function view(e) {
         input.view = e.target.value
@@ -55,30 +58,67 @@ function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
         setInput(a)
     }
 
-    useEffect(() => {
-        getBolim()
-    }, [])
 
     const [active, setActive] = useState(false)
 
-    function saqla(){
-        saveBolim(
-            {
-                name:input.bolimnomi,
-                businessId:1
+    function editB(id) {
+        toggle()
+        BolimReducer.bolimlar.map(item => {
+            if (item.id === id) {
+                input.bolimnomi = item.name
+                input.bId = id
+                let a = {...input}
+                setInput(a)
             }
-        )
+        })
+    }
+
+    function saqla() {
+        if(input.bId !== '') {
+            editBolim(
+                {
+                    name: input.bolimnomi,
+                    businessId: users.businessId,
+                    id: input.bId
+                }
+            )
+            setCurrent(!current)
+
+        }
+        else{
+            saveBolim({
+                name: input.bolimnomi,
+                businessId: users.businessId,
+            })
+        }
+        input.bolimkodi = ''
+        input.bolimnomi = ''
+        input.qisqacamalumot = ''
+        input.bId = ''
+        let a = {...input}
+        setInput(a)
+        setCurrent(!current)
+        getBolim(users.businessId)
         toggle()
     }
 
-    function deleteB(item){
+
+    function deleteB(item) {
         deleteBolim(item.id)
+        setCurrent(!current)
+        getBolim(users.businessId)
         console.log('Deleted')
     }
 
     function toggle() {
         setActive(!active)
     }
+
+
+    useEffect(() => {
+        getBolim(users.businessId)
+    }, [current])
+
 
     return (
         <div className="col-md-12 mt-4 mb-4">
@@ -111,37 +151,41 @@ function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
                     </div>
                 </div>
                 <div className="table-responsive mb-4">
-                <table className='table table-striped table-bordered mt-4'>
-                    <thead>
-                    <tr>
-                        <th>Bo'limlar</th>
-                        <th>Bo'lim kodi</th>
-                        <th>Qisqa malumot</th>
-                        <th>Amallar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                    <table className='table table-striped table-bordered mt-4'>
+                        <thead>
+                        <tr>
+                            <th>Bo'limlar</th>
+                            <th>Bo'lim kodi</th>
+                            <th>Qisqa malumot</th>
+                            <th>Amallar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    {
-                        bolimlar.filter(val => {
-                            if (input.search === '') {
-                                return val
-                            } else if (val.name.toUpperCase().includes(input.search.toUpperCase())) {
-                                return val
-                            }
-                        }).map(item => <tr key={item.id}>
-                            <td>{item.name}</td>
-                            <td>j
-                                <Link>
-                                    <button onClick={toggle} className='taxrirlash'> <img src={Edit} alt=""/> Taxrirlash </button>                                                    
-                                </Link>
-                                <button className='ochirish' onClick={()=>deleteB(item)}><img src={Delete} alt=""/> O'chirish</button>
-                            </td>
-                        </tr>)
-                    }
+                        {
+                            BolimReducer.bolimlar.filter(val => {
+                                if (input.search === '') {
+                                    return val
+                                } else if (val.name.toUpperCase().includes(input.search.toUpperCase())) {
+                                    return val
+                                }
+                            }).map(item => <tr key={item.id}>
+                                <td>{item.name}</td>
+                                <td>
+                                    <Link>
+                                        <button onClick={()=>editB(item.id)} className='taxrirlash'><img src={Edit}
+                                                                                             alt=""/> Taxrirlash
+                                        </button>
+                                    </Link>
+                                    <button className='ochirish' onClick={() => deleteB(item)}><img src={Delete}
+                                                                                                    alt=""/> O'chirish
+                                    </button>
+                                </td>
+                            </tr>)
+                        }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
 
                 <p>Ko'rsatildi 1 ta sahifa 1 va yana 1 ta sahifa bor</p>
@@ -167,7 +211,7 @@ function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
                     </ModalBody>
                     <ModalFooter>
                         {/*<Link to={'/headerthird/bolimlar'}>*/}
-                            <button className={'btn btn-outline-primary'} onClick={saqla}>Saqlash</button>
+                        <button className={'btn btn-outline-primary'} onClick={saqla}>Saqlash</button>
                         {/*</Link>*/}
                         <button className={'btn btn-outline-primary'} onClick={toggle}>Chiqish</button>
                     </ModalFooter>
@@ -179,7 +223,7 @@ function Bolimlar({getBolim, bolimlar,saveBolim,deleteBolim}) {
 
 // export default connect((BolimReducer), {getBolim, saveBolim, editBolim,deleteBolim})(Bolimlar)
 
-export default connect(({BolimReducer: {bolimlar}}) => ({bolimlar}), {
+export default connect((BolimReducer, users), {
     getBolim,
     saveBolim,
     deleteBolim,

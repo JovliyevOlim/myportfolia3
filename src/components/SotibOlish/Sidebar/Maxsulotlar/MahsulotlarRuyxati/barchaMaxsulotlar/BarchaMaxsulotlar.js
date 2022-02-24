@@ -25,33 +25,18 @@ function BarchaMaxsulotlar({getMaxsulotRuyxati, maxsulotlar,MaxsulotlarRoyxariRe
             view: '',
             izlash: '',
             maxsulot: '',
-            baza: '',
-            sotibolishnarxi: '',
-            sotishnarxi: '',
-            qolganmaxsulot: '',
-            firma: '',
             checkbarcha: '',
             //    ---
             name: '',
-            barcode: '',
-            brandId: '',
-            categoryId: '',
-            measurementId: '',
-            photoIds: '',
-            minQuantity: '',
-            buyPrice: '',
-            salePrice: '',
-            tax: '',
-            branchId: '',
-            expireDate: '',
-            dueDate: '',
+
             inputsearch: ''
         }
     )
+    const [current,setCurrent]=useState(false)
 
     useEffect(() => {
         getMaxsulotRuyxati()
-    }, [])
+    }, [current])
 
     function view(e) {
         input.view = e.target.value
@@ -71,97 +56,9 @@ function BarchaMaxsulotlar({getMaxsulotRuyxati, maxsulotlar,MaxsulotlarRoyxariRe
         setActive(!active)
     }
 
-    function saqla() {
-        saveMaxsulotRuyxati({
-            name: input.name,
-            barcode: input.barcode,
-            brandId: input.brandId,
-            categoryId: input.categoryId,
-            measurementId: input.measurementId,
-            photoIds: input.photoIds,
-            minQuantity: input.minQuantity,
-            buyPrice: input.buyPrice,
-            salePrice: input.salePrice,
-            tax: input.tax,
-            branchId: input.branchId,
-            expireDate: input.expireDate,
-            dueDate: input.dueDate
-        })
-    }
-
-    function name(e) {
-        input.name = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function barcode(e) {
-        input.barcode = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function brandId(e) {
-        input.brandId = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function categoryId(e) {
-        input.categoryId = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function measurementId(e) {
-        input.measurementId = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function photoIds(e) {
-        input.photoIds = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function minQuantity(e) {
-        input.minQuantity = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function buyPrice(e) {
-        input.buyPrice = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function salePrice(e) {
-        input.salePrice = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function tax(e) {
-        input.tax = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function branchId(e) {
-        input.branchId = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function expireDate(e) {
-        input.expireDate = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function dueDate(e) {
-        input.dueDate = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-    function search(e) {
-        input.inputsearch = e.target.value
-        let a = {...input}
-        setInput(a)
-    }
-
     function deleteM(item) {
         deleteMaxsulotRuyxati(item.id)
+        setCurrent(!current)
         console.log('deleted')
     }
 
@@ -217,6 +114,7 @@ function BarchaMaxsulotlar({getMaxsulotRuyxati, maxsulotlar,MaxsulotlarRoyxariRe
                                 }
                             })
                                 .map(item => <tr key={item.id}>
+                                    <td><input type="checkbox"/></td>
                                     <td>{item.name}</td>
                                     <td></td>
                                     <td></td>
@@ -225,7 +123,7 @@ function BarchaMaxsulotlar({getMaxsulotRuyxati, maxsulotlar,MaxsulotlarRoyxariRe
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <Link to={'/headerthird/mahsulotRuyxati/barcaMahsulot/taxrirlash'}>
+                                        <Link to={'/headerthird/mahsulotRuyxati/barcaMahsulot/taxrirlash/'+item.id}>
                                             <button className='taxrirlash'><img src={Edit} alt=""/> Taxrirlash
                                             </button>
                                         </Link>

@@ -1,5 +1,5 @@
 import './taxrirl.css'
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {Modal, ModalBody, ModalHeader, ModalFooter} from "reactstrap";
 import MaxsulotlarRoyxariReducer, {
     saveMaxsulotRuyxati,
@@ -9,11 +9,17 @@ import MaxsulotlarRoyxariReducer, {
 } from "../../reducer/MaxsulotlarRoyxariReducer";
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
-function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxati}) {
+import kgreducer,{getkg,savekg} from "../../../../../../reducer/kgreducer";
+import users from "../../../../../../reducer/users";
+import FirmaReducer,{getFirma,saveFirma} from "../../reducer/FirmaReducer";
+import BolimReducer,{getBolim} from "../../reducer/BolimReducer";
+function Taxrirlash({editMaxsulotRuyxati,BolimReducer,getBolim, saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxati,match,MaxsulotlarRoyxariReducer,kgreducer,getkg,users,savekg,FirmaReducer,getFirma,saveFirma,}) {
+
 
     const [active, setActive] = useState(false)
     const [active2, setActive2] = useState(false)
     const [active3, setActive3] = useState(false)
+    const [current, setCurrent] = useState(false)
 
     const [input,setInput] = useState(
         {
@@ -42,7 +48,8 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
             foydafoiz:'',
             sotishnarxi:'',
             mahsulotrasmi:'',
-            soliqbnnarx:''
+            soliqbnnarx:'',
+            sotibolishnarxi:''
         }
     )
 
@@ -67,12 +74,12 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
         setInput(a)
     }
     function ulcovNomi(e){
-        input.ulcovNomi = e.target.value
+        input.ulcovnomi = e.target.value
         let a = {...input}
         setInput(a)
     }
     function ulcovqisqaNomi(e){
-        input.ulcovqisqaNomi = e.target.value
+        input.ulcovqisqanomi = e.target.value
         let a = {...input}
         setInput(a)
     }
@@ -141,6 +148,12 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
         let a = {...input}
         setInput(a)
     }
+
+    function sotibolishnarxi(e){
+        input.sotibolishnarxi = e.target.value
+        let a = {...input}
+        setInput(a)
+    }
     function mahsulotrasmi(e){
         input.mahsulotrasmi = e.target.value
         let a = {...input}
@@ -162,25 +175,106 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
         setActive3(!active3)
     }
 
-    function saqla(){
-        saveMaxsulotRuyxati({
-            name:input.mahsulotnomi,
-            quantity:1,
-            barcode: input.shtrixkod,
-            brandId:input.ferma,
-            categoryId:input.shtrixkodturi,
-            measurementId:input.ulcovbirligi,
-            photoIds:1,
-            minQuantity:input.foydafoiz,
-            buyPrice:'',
-            salePrice:input.sotishnarxi,
-            tax:input.amaldagisoliq,
-            branchId:input.ferma,
-            expireDate:null,
-            dueDate:null
+    function  editMax(){
+        console.log(match.params)
+        if(match.params.id !== undefined){
+            getMaxsulotRuyxati()
+        }
+        MaxsulotlarRoyxariReducer.maxsulotlar.map(item=>{
+            if(item.id == match.params.id){
+                input.mahsulotnomi=item.name
+                input.shtrixkod=item.barcode
+                input.sotibolishnarxi=item.salePrice
+                input.ferma=item.brand.id
+                input.bolim= item.category.id
+                input.ulcovbirligi=item.measurement.id
+                input.foydafoiz=item.minQuantity
+                input.sotishnarxi=item.buyPrice
+                input.amaldagisoliq=item.tax
+                let a ={...input}
+                setInput(a)
+            }
         })
-        // console.log('ishladi');
+        console.log(input)
     }
+
+
+    function saqla(){
+        if(match.params.id !== undefined){
+            editMaxsulotRuyxati({
+                name:input.mahsulotnomi,
+                quantity:1,
+                barcode: input.shtrixkod,
+                brandId:input.ferma,
+                categoryId:input.bolim,
+                measurementId:input.ulcovbirligi,
+                photoIds:[1],
+                minQuantity:input.foydafoiz,
+                buyPrice:input.sotishnarxi,
+                salePrice:input.sotibolishnarxi,
+                tax:input.amaldagisoliq,
+                branchId:[1],
+                expireDate:null,
+                dueDate:null,
+                id:match.params.id,
+            })
+            console.log('edit')
+        }else{
+            saveMaxsulotRuyxati({
+                name:input.mahsulotnomi,
+                quantity:   1     ,                                 /*input.foydafoiz,*/
+                barcode: input.shtrixkod,
+                brandId:   input.ferma,                      /*input.ferma,*/
+                categoryId: input.bolim,                     /*  input.bolim,*/
+                measurementId: input.ulcovbirligi,             /*  input.ulcovbirligi,*/
+                photoIds:[1],
+                minQuantity:   input.foydafoiz,                    /*   input.foydafoiz,*/
+                buyPrice:      input.sotishnarxi,               /*   input.sotishnarxi,*/
+                salePrice:input.sotibolishnarxi,
+                tax:input.amaldagisoliq,               /* input.amaldagisoliq,*/
+                branchId:[1],
+                expireDate: null,
+                dueDate:null
+            })
+            console.log('save')
+        }
+        console.log('ishladi');
+        setCurrent(!current)
+    }
+
+    function saqlakg(){
+        savekg({
+            name:input.ulcovnomi,
+            businessId:users.businessId
+        })
+        toggle()
+        input.ulcovnomi=''
+        input.ulcovqisqanomi=''
+        input.ulcovunlikasr=''
+    }
+    function saqlabrand(){
+        saveFirma({
+            name:input.brandnomi,
+            businessId:users.businessId
+        })
+        toggle()
+        input.brandnomi=''
+        input.qisqaeslatma=''
+    }
+
+    useEffect(()=>{
+        getMaxsulotRuyxati()
+        getBolim()
+        editMax()
+    },[current])
+
+    useEffect(()=>{
+        getkg(users.businessId)
+    },[kgreducer.current])
+
+    useEffect(()=>{
+        getFirma(users.businessId)
+    },[FirmaReducer.current])
 
     return (
         <div className={'row mt-5 contanerT'}>
@@ -196,26 +290,37 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
 
                             <select name="" id={'olcov'} onChange={ulcovbirligi} value={input.ulcovbirligi} className={'form-control'}>
                                 <option value="#">Tanlash</option>
-                                <option value="#">Kg</option>
+                                {
+                                    kgreducer.kg.map((item,index)=>
+                                        <option value={item.id}>
+                                        {item.name}
+                                    </option>)
+                                }
                             </select>
                             <h2 onClick={toggle} style={{cursor: 'pointer'}}>+</h2>
                         </div>
                         <label className={'mt-3'} htmlFor={'bol'}>Bo`lim</label>
                         <select name="" onChange={bolim} value={input.bolim} className={'form-control'} id={'bol'}>
                             <option value="">Tanlash</option>
+                            {
+                                BolimReducer.bolimlar.map(item=> <option value={item.id}>{item.name}</option>)
+                            }
                         </select>
                     </div>
                 
 
                     <div className="col-4 col-sm-12">
                         <label className='mt-3' htmlFor={'shtrixKod'}>Shtrix kod</label>
-                        <input type="text" id={'shtrixKod'} value={input.shtrixkod} onChange={shtrixkod} className={'form-control'}/>
+                        <input type="number" id={'shtrixKod'} value={input.shtrixkod} onChange={shtrixkod} className={'form-control'}/>
 
-                        <label className='mt-3' htmlFor={'firma'}>Ferma</label>
+                        <label className='mt-3' htmlFor={'firma'}>Firma</label>
                         <div className={'d-flex'}>
 
                             <select name="" value={input.ferma} onChange={ferma} id={'firma'} className={'form-control'}>
                                 <option value="#">Tanlash</option>
+                                {
+                                    FirmaReducer.firmalar.map(item=> <option value={item.id}>{item.name}</option>)
+                                }
                             </select>
                             <h2 onClick={toggle2} style={{cursor: 'pointer'}}>+</h2>
                         </div>
@@ -274,11 +379,10 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
                     </select>
                 </ModalBody>
                 <ModalFooter>
-                    <button className={'btn btn-primary'}>SAQLASH</button>
+                    <button onClick={saqlakg} className={'btn btn-primary'}>SAQLASH</button>
                     <button className={'btn btn-primary'} onClick={toggle}>CHIQISH</button>
                 </ModalFooter>
             </Modal>
-
             <Modal isOpen={active2} toggle={toggle2}>
                 <ModalHeader>
                     Brand qo`shish
@@ -287,10 +391,10 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
                     <label htmlFor={'nomi'}>Brand Nomi</label>
                     <input onChange={fermabrandnomi} value={input.brandnomi} type="text" className={'form-control'} id={'nomi'}/>
                     <label htmlFor={'nomi2'}>Qisqa eslatma</label>
-                    <input type="text" id={'nomi2'} onChange={fermaqisqaeslatma}  className={'form-control'}/>
+                    <input type="text" id={'nomi2'} onChange={fermaqisqaeslatma}  value={input.qisqaeslatma} className={'form-control'}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button className={'btn btn-primary'}>SAQLASH</button>
+                    <button onClick={saqlabrand} className={'btn btn-primary'}>SAQLASH</button>
                     <button className={'btn btn-primary'} onClick={toggle2}>CHIQISH</button>
                 </ModalFooter>
             </Modal>
@@ -313,6 +417,7 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
                             <th>Olish narxi</th>
                             <th>Foyda foizda(%)</th>
                             <th>Sotish narxi</th>
+                            <th>Sotib olish  narxi</th>
                             <th>Mahsulot rasmi</th>
                         </tr>
                     </thead>
@@ -335,6 +440,11 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
                                        style={{border:'1px solid gray',padding:'10px'}}/>
                             </td>
                             <td>
+                                <label htmlFor={''}>Sotib olish narxi</label><br/>
+                                <input type="text" placeholder={'soliqsiz narxi'} value={input.sotibolishnarxi} onChange={sotibolishnarxi}
+                                       style={{border:'1px solid gray',padding:'10px'}}/>
+                            </td>
+                            <td>
                                 <p className='m-0' >mahsulot rasmi</p>
                                 <input type="file"/>
                             </td>
@@ -351,9 +461,14 @@ function Taxrirlash({saveMaxsulotRuyxati,deleteMaxsulotRuyxati,getMaxsulotRuyxat
     )
 }
 
-export default connect(({MaxsulotlarRoyxariReducer:{maxsulotlar}})=>({maxsulotlar}), {
+export default connect((MaxsulotlarRoyxariReducer,users,kgreducer,FirmaReducer,BolimReducer), {
     getMaxsulotRuyxati,
     saveMaxsulotRuyxati,
     deleteMaxsulotRuyxati,
-    editMaxsulotRuyxati
+    editMaxsulotRuyxati,
+    getkg,
+    savekg,
+    getFirma,
+    saveFirma,
+    getBolim,
 }) (Taxrirlash)

@@ -32,7 +32,10 @@ function HodimlarRoyhati({getXodim, deleteXodim,XodimReducer,  xodimlar,users}) 
 
     function deletex(item){
         deleteXodim(item.id)
-        getXodim(users.businessId)
+        setTimeout(()=>{
+            getXodim(users.businessId)
+
+        },100)
     }
 
     function search(e){

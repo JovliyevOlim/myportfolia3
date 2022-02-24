@@ -13,7 +13,6 @@ const slice = createSlice({
             state.xodimlar = action.payload.object
             console.log(action.payload.object);
             console.log('getdeltetishladi')
-            state.current=state.current+1
         },
         savefrom: (state, action) => {
             state.xodimlar.unshift(action.payload)
@@ -26,12 +25,12 @@ const slice = createSlice({
                     item.login = action.payload.login
                 }
             })
-            state.current=state.current-1
+            state.current+=1
         },
         deletefrom: (state, action) => {
             console.log('ochirildi')
             console.log(action.payload.object.id)
-            state.current=state.current-1
+            state.current+=1
         }
     }
 });

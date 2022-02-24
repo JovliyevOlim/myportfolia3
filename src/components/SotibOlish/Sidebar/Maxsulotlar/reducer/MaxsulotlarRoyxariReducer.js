@@ -5,8 +5,7 @@ import {apiCall} from "../../../../../api";
 const slice = createSlice({
     name: 'maxsulotlar',
     initialState: {
-        maxsulotlar: []
-
+        maxsulotlar: [],
     },
     reducers: {
         getFrom: (state, action) => {
@@ -16,15 +15,9 @@ const slice = createSlice({
         },
         savefrom: (state,action) => {
             console.log(action.payload)
-            state.maxsulotlar.unshift(action.payload)
             console.log('SAQLANDI_MAXSULOT');
         },
         editfrom: (state,action) => {
-            state.maxsulotlar.map((item,index)=>{
-                if (item.id === action.payload.id){
-                    item.login = action.payload.login
-                }
-            })
         },
         deletefrom:(state,action)=>{
             console.log('DELETED_MAXSULOTLAR');
@@ -52,8 +45,8 @@ export const saveMaxsulotRuyxati=(data)=>apiCall({
 });
 
 export const editMaxsulotRuyxati=(data)=>apiCall({
-    url: '/product',
-    method: 'post',
+    url: '/product/'+data.id,
+    method: 'put',
     data,
     onSuccess: slice.actions.editfrom.type
 });

@@ -1,36 +1,39 @@
 import './useInfo.css'
 function UseInfo() {
     return(
-        <div className="div">
-
-            <div className="c">
-                <p>Savdodan ulushi (foizda %)</p>
+        <div className="userCont">
+            <div className="">
+                <h5>Savdodan ulushi (%): </h5>
+            </div>
                 <p>Ko`proq ma`lumotlar</p>
+                <div className="table-responsive">
+                    <div className="table table-bordered table-striped ">
+                        <thead>
+                            <tr>
+                                <th>Tug'ilgan sana</th>
+                                <th>Jinsi</th>
+                                <th>Oilaviy holati</th>
+                                <th>Qon guruxi</th>
+                                <th>Telfon raqam</th>
+                                <th>Ikkinchi raqam</th>
+                                <th>Uy telefon raqam</th>
+                                <th>Id Profil name</th>
+                                <th>Facebook manzili</th>
+                                <th>Socal media</th>
+                                <th>Pasport seria raqam</th>
+                                <th>Custom field 1</th>
+                                <th>Custom field 2</th>
+                                <th>Custom field 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    
+                                </tr>
+                        </tbody>
+                    </div>
+                </div>
             </div>
-            <div className="col-md-3">
-                <p className={'p'}>Tug`ilgan sana:</p>
-                <p className={'p'}>Jinsi:</p>
-                <p className={'p'}>Oilaviy holati:</p>
-                <p className={'p'}>Qon Guruhi:</p>
-                <p className={'p'}>Tel raqam:</p>
-                <p className={'p'}>Ikkinchi raqam:</p>
-                <p className={'p'}>lang_v1.family_contact_number:</p>
-                <p className={'p'}>ID Prof name:</p>
-            </div>
-            <div className="col-md-3">
-                <p className={'p'}>Facebook manzili:</p>
-                <p className={'p'}>Twitter manzili:</p>
-                <p className={'p'}>Social Media 1:</p>
-                <p className={'p'}>Social Media 2:</p>
-                <p className={'p'}>Passport raqami</p>
-            </div>
-            <div className="col-md-3">
-                <p className={'p'}>Custom field 1:</p>
-                <p className={'p'}>Custom field 2:</p>
-                <p className={'p'}>Custom field 3:</p>
-                <p className={'p'}>Custom field 4:</p>
-            </div>
-        </div>
     )
 }
 export default UseInfo

@@ -7,7 +7,6 @@ import LavozimReducer from "./components/SotibOlish/Sidebar/Hodimlar/reducer/Lav
 import XodimSavdoReducer from "./components/SotibOlish/Sidebar/Hodimlar/reducer/XodimSavdoReducer";
 import TaminotReducer from "./components/SotibOlish/Sidebar/Hamkorlar/reducer/TaminotReducer";
 import MijozGuruxReducer from "./components/SotibOlish/Sidebar/Hamkorlar/reducer/MijozGuruxReducer";
-import MahsulotReducer from "./components/SotibOlish/Sidebar/Maxsulotlar/reducer/MahsulotReducer";
 import SotuvNarxiReducer from "./components/SotibOlish/Sidebar/Maxsulotlar/reducer/SotuvNarxiReducer";
 import BolimReducer from "./components/SotibOlish/Sidebar/Maxsulotlar/reducer/BolimReducer";
 import FirmaReducer from "./components/SotibOlish/Sidebar/Maxsulotlar/reducer/FirmaReducer";
@@ -28,13 +27,14 @@ import QoldiqlarxisobotiReducer from './components/SotibOlish/Sidebar/Xisobotlar
 import SoliqlarxisobotiReducer from './components/SotibOlish/Sidebar/Xisobotlar/reducer/SoliqlarxisobotiReducer'
 import MaxsulotlarRoyxariReducer from "./components/SotibOlish/Sidebar/Maxsulotlar/reducer/MaxsulotlarRoyxariReducer";
 import branchreducer from "./reducer/branchreducer";
+import kgreducer from "./reducer/kgreducer";
 export default configureStore({
     reducer:{
         users,functionreducer,XodimReducer,LavozimReducer,XodimSavdoReducer,TaminotReducer,
-        MijozGuruxReducer,MahsulotReducer,SotuvNarxiReducer,BolimReducer,FirmaReducer,XaridReducer,SavdoOynaReducer,
+        MijozGuruxReducer,SotuvNarxiReducer,BolimReducer,FirmaReducer,XaridReducer,SavdoOynaReducer,
         OtkazmaReducer,XarajatlarReducer,XarajatTurlariReducer,FoydaZararReducer,XaridlarXisobotiReducer,
         MijozHisobotiReducer,XarajatXisobotReducer,SavdodagiTulovReducer,MaxsulotxisobotReducer,KopsotilgantovarlarReducer,
-        OtkazmalarxisobotiReducer,QoldiqlarxisobotiReducer,SoliqlarxisobotiReducer,MaxsulotlarRoyxariReducer,branchreducer
+        OtkazmalarxisobotiReducer,QoldiqlarxisobotiReducer,SoliqlarxisobotiReducer,MaxsulotlarRoyxariReducer,branchreducer,kgreducer
     },
         middleware:[api]
 })
